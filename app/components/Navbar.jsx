@@ -1,9 +1,17 @@
 'use client'
+import { useMotionValueEvent, useScroll } from 'framer-motion'
 import { usePathname, useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 
 const Navbar = () => {
+    const [scrollProgress, setScrollProgress] = useState(0); // [progress]
 const router=useRouter()
+const {scrollYProgress} = useScroll()
+useMotionValueEvent(scrollYProgress,'change',(latest)=>{    
+    // console.log(latest);
+setScrollProgress(latest)
+})
+// console.log(scrollYProgress);
 
 const finfmentorhandle=()=>{
 router.push('/explore-mentors')
@@ -14,7 +22,7 @@ if(path==='/explore-mentors'){
 }
 
   return (
-    <nav class="sticky z-30 !border-[#CBE8F6] bg-[#ebf7fd] md:!border-b top-[0px] flex w-full font-inter flex-col justify-center border-b  duration-300 lg:h-[80px]" >
+    <nav class={`sticky z-30 !border-[#CBE8F6] ${scrollProgress>.07?'bg-white':'bg-[#ebf7fd]'} bg-[#ebf7fd] md:!border-b top-[0px] flex w-full font-inter flex-col justify-center border-b  duration-300 lg:h-[80px]`} >
         <div class="relative hidden h-full w-full items-center justify-between px-10 lg:flex">
             <div class="flex h-full items-center text-sm font-medium">
             <a class="pr-1 lg:pr-3" href="/">
